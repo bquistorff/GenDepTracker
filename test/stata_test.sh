@@ -3,7 +3,9 @@
 PATH=../Windows/bin:$PATH
 dep_tracker_pre.sh
 
-$STATABATCH di 4
+$STATABATCH do stata_test.do
 echo "Finished work"
 
 dep_tracker_post.sh
+
+rm stata_test.txt stata.est stata_internal_log.smcl stata_test.log stata_mata.dat Graph.gph auto_loc.dta Graph.eps

@@ -1,6 +1,8 @@
 #! /bin/bash
-# Starts up the logging.
+binDir="/cygdrive/c/Program Files (x86)/SysinternalsSuite/"
 
+# Starts up the logging.
+cp config.pmc "$binDir"
 #./Procmon.exe /backingfile log.pml /AcceptEula /LoadConfig config.pmc /Minimized /Quiet &
 schtasks /run /TN "Procmon1 elevated" > /dev/null
 

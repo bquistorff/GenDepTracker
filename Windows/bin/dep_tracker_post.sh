@@ -17,13 +17,13 @@ echo "Finished Procmon shutdown"
 
 
 cd "$binDir"
-./Procmon.exe /openlog log.pml /SaveAs log.csv
+
+# Procmon doesn't use all the filters initially:
+#http://forum.sysinternals.com/please-make-drop-filtered-events-a-little-smarte_topic30938.html
+# So filer again when exporting
+./Procmon.exe /LoadConfig config.pmc /openlog log.pml /SaveApplyFilter /SaveAs log.csv
 mv -f log.pml log.csv $origDir
 cd $origDir
-# Procmon doesn't use all the filters for some reason, so the following.
-# Could put this filtering python, but here helps with human readability of csv.
-cat log.csv | grep -v 'NT AUTHORITY\\SYSTEM' | grep -v "PATH NOT FOUND" | grep -v "NAME NOT FOUND" > log.csv
 echo "Finished log conversion. WPID=$WPID"
 
-
-output_dependencies.py $WPID log.csv $WPWD
+output_dependencies.py $WPID log.csv $WPWD target.d
