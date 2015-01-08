@@ -1,0 +1,15 @@
+Similar question: http://stackoverflow.com/questions/23506275/what-files-does-that-program-open-on-windows
+
+A file tracker (like Windows Auditing) even with process IDs isn't good enough because there could be other processes accessing files (like backup processes). So need to build up a process tree. So need to use process tracking.
+
+>Using Procmon because it's windows supported. The other ones don't work consistently as this is a undocumented area of Windows and is a moving target.
+Other Windows process Trackers:
+-StraceNT (Win32) http://ih.logicodu.com/default.asp?BH=projects&H=strace.htm. Got "Error: The request is not supported". Maybe try again?
+-WinDbg's Logger.exe http://msdn.microsoft.com/en-us/library/windows/hardware/ff552060(v=vs.85).aspx (though these are just library and not system calls)
+-Windows Events http://msdn.microsoft.com/en-us/magazine/ee412263.aspx
+-Dr Memory STrace for Windows http://www.drmemory.org/strace_for_windows.html
+-NtTrace (Native API) http://www.howzatt.demon.co.uk/NtTrace/
+-Apimon (MS) said couldn't start program after I had selected (opened) it.
+
+>Using Scheduler to get around Procmon's UAC warning. Reference:
+http://www.makeuseof.com/tag/stop-annoying-uac-prompts-how-to-create-a-user-account-control-whitelist-windows/
