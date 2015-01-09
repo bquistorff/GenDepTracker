@@ -1,6 +1,12 @@
 #! /bin/bash
 binDir="/cygdrive/c/Program Files (x86)/SysinternalsSuite/"
 
+if [ $(ps -W | grep -c 'Procmon') -gt 0 ]
+then
+	echo "Currently can only work if no existing Procmon instances are running"
+	exit
+fi
+
 # Starts up the logging.
 cp config.pmc "$binDir"
 #./Procmon.exe /backingfile log.pml /AcceptEula /LoadConfig config.pmc /Minimized /Quiet &
