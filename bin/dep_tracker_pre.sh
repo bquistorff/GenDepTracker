@@ -1,5 +1,4 @@
 #! /bin/bash
-binDir="/cygdrive/c/Program Files (x86)/SysinternalsSuite/"
 
 if [ $(ps -W | grep -c 'Procmon') -gt 0 ]
 then
@@ -20,5 +19,6 @@ while ! [ $(ps -W | grep -v 'AppData' | grep -c 'Procmon') -eq 1 ]
 do
 	sleep 1s
 done
-echo "Finished Procmon startup"
+if [ -n "$GENDEP_DEBUG" ]; then echo "Finished Procmon startup"; fi
+
 

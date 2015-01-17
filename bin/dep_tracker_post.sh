@@ -2,7 +2,6 @@
 # Shuts down the logging. Processes the logging file.
 
 origDir=$PWD
-binDir="/cygdrive/c/Program Files (x86)/SysinternalsSuite/"
 #get the windows ID of this bash process
 WPID=$(ps | awk '{print $1,$4}' | grep $PPID | awk '{print $2}')
 WPWD=`cygpath -w "$PWD"`
@@ -13,7 +12,8 @@ while ! [ $(ps -W | grep -v 'AppData' | grep -c 'Procmon') -eq 0 ]
 do
 	sleep 1s
 done
-echo "Finished Procmon shutdown"
+if [ -n "$GENDEP_DEBUG" ]; then echo "Finished Procmon shutdown"; fi
+
 
 
 cd "$binDir"
@@ -24,6 +24,7 @@ cd "$binDir"
 ./Procmon.exe /LoadConfig config.pmc /openlog log.pml /SaveApplyFilter /SaveAs log.csv
 mv -f log.pml log.csv $origDir
 cd $origDir
-echo "Finished log conversion. WPID=$WPID"
+if [ -n "$GENDEP_DEBUG" ]; then echo "Finished log conversion. WPID=$WPID"; fi
 
-output_dependencies.py $WPID log.csv $WPWD target.d
+
+output_dependencies.py $WPID log.csv $WPWD $GENDEP_TARGET

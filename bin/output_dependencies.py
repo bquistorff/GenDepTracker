@@ -8,7 +8,7 @@ def error(message):
 
 def main(argv):
 	if len(argv)!=(3+1) and len(argv)!=(4+1):
-		error('usage: %s root_WPID procmon_log.csv proj_base_path [dep_fname]' % os.path.basename(argv[0]))
+		error('usage: %s root_WPID procmon_log.csv proj_base_path [target]' % os.path.basename(argv[0]))
 	
 	proc_set = [argv[1]]
 	log_fname = argv[2]
@@ -44,9 +44,10 @@ def main(argv):
 	
 	#Output the information
 	if len(argv)==(4+1):
-		with open(argv[4], "w") as dep_file:
+		target = argv[4]
+		with open(target+".dep", "w") as dep_file:
 			if len(init_read_files)>0:
-				dep_file.write('target :')
+				dep_file.write(target + ' :')
 				for fname in init_read_files:
 					dep_file.write(' ' + fname)
 				dep_file.write('\n')
@@ -54,7 +55,7 @@ def main(argv):
 			if len(ever_write_files)>0:
 				for fname in ever_write_files:
 					dep_file.write(fname + ' ')
-				dep_file.write(' : target\n')
+				dep_file.write(' : '+target+'\n')
 	
 	else:
 		print 'Project files initially read:'

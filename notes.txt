@@ -13,3 +13,5 @@ Other Windows process Trackers:
 
 >Using Scheduler to get around Procmon's UAC warning. Reference:
 http://www.makeuseof.com/tag/stop-annoying-uac-prompts-how-to-create-a-user-account-control-whitelist-windows/
+
+>I track read/writes rather than the attribute on CreateFile because (a) RW is ambiguous, and (b) Stata (and possibly others) does CreateFile operations just to see if it exists.
