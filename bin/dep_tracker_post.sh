@@ -26,5 +26,8 @@ mv -f log.pml log.csv $origDir
 cd $origDir
 if [ -n "$GENDEP_DEBUG" ]; then echo "Finished log conversion. WPID=$WPID"; fi
 
-
 output_dependencies.py $WPID log.csv $WPWD $GENDEP_TARGET
+
+if [ -z "$GENDEP_DEBUG" ]; then 
+	rm log.pml log.csv
+fi
