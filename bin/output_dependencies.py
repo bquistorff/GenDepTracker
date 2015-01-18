@@ -46,16 +46,16 @@ def main(argv):
 	if len(argv)==(4+1):
 		target = argv[4]
 		with open(target+".dep", "w") as dep_file:
+			if len(ever_write_files)>0:
+				for fname in ever_write_files:
+					dep_file.write(fname + ' ')
+				dep_file.write(' : '+target+'\n')
+				
 			if len(init_read_files)>0:
 				dep_file.write(target + ' :')
 				for fname in init_read_files:
 					dep_file.write(' ' + fname)
 				dep_file.write('\n')
-				
-			if len(ever_write_files)>0:
-				for fname in ever_write_files:
-					dep_file.write(fname + ' ')
-				dep_file.write(' : '+target+'\n')
 	
 	else:
 		print 'Project files initially read:'

@@ -14,7 +14,7 @@ do
 done
 if [ -n "$GENDEP_DEBUG" ]; then echo "Finished Procmon shutdown"; fi
 
-
+if ! [ $1 -eq 0 ]; then exit $1; fi
 
 cd "$binDir"
 

@@ -11,7 +11,9 @@ dep_tracker_pre.sh
 if [ ! $? -eq 0 ]; then exit $?; fi
 
 $@
-if [ -n "$GENDEP_DEBUG" ]; then echo "Finished work"; fi
+rc=$?
 
-dep_tracker_post.sh
+if [ -n "$GENDEP_DEBUG" ]; then echo "Finished work. rc=$rc"; fi
+
+dep_tracker_post.sh $rc
 exit $?
