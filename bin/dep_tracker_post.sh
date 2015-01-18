@@ -4,7 +4,7 @@
 origDir=$PWD
 #get the windows ID of this bash process
 WPID=$(ps | awk '{print $1,$4}' | grep $PPID | awk '{print $2}')
-WPWD=`cygpath -w "$PWD"`
+WPDIR=`cygpath -w "$pdir"`
 
 #./Procmon.exe /Terminate
 schtasks /run /TN "Procmon3 elevated" > /dev/null
@@ -26,8 +26,10 @@ mv -f log.pml log.csv $origDir
 cd $origDir
 if [ -n "$GENDEP_DEBUG" ]; then echo "Finished log conversion. WPID=$WPID"; fi
 
-output_dependencies.py $WPID log.csv $WPWD $GENDEP_TARGET
+output_dependencies.py $WPID log.csv $WPDIR $GENDEP_TARGET
 
 if [ -z "$GENDEP_DEBUG" ]; then 
 	rm log.pml log.csv
+else
+	echo "output_dependencies.py $WPID log.csv $WPDIR $GENDEP_TARGET"
 fi
