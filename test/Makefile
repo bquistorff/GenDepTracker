@@ -2,6 +2,7 @@
 # Need to have STATABATCH resolve (bin +platform specific batch option)
 #GENDEP_DEBUG=1
 export PATH := $(shell pwd)/../bin:$(PATH)
+export GENDEP_PROJDIR := $(CURDIR)
 
 test-stata:
 	-rm stata_test.dep
