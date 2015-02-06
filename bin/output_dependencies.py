@@ -19,8 +19,9 @@ def main(argv):
 	if proj_base.endswith('\\'):
 		proj_base=proj_base[:-1]
 	
-	init_read_files = set()
-	ever_write_files = set()
+	# don't use set because I want a consistent order.
+	init_read_files = []
+	ever_write_files = []
 	
 	# read the string data
 	with open(log_fname,  'r') as f:
@@ -35,15 +36,16 @@ def main(argv):
 			if line["Operation"].startswith('ReadFile') and line["PID"] in proc_set and line["Path"].startswith(proj_base):
 				#fname = line["Path"][(len(proj_base)+1):]
 				fname = line["Path"]
-				if fname not in ever_write_files:
-					init_read_files.add(fname)
+				if fname not in ever_write_files and fname not in init_read_files:
+					init_read_files.append(fname)
 						
 			if line["Operation"].startswith('WriteFile') and line["PID"] in proc_set and line["Path"].startswith(proj_base):
 				#fname = line["Path"][(len(proj_base)+1):]
 				fname = line["Path"]
-				ever_write_files.add(fname)
+				if fname not in ever_write_files:
+					ever_write_files.append(fname)
 	
-	#remove if the files ultimately were deleted. Sets become lists
+	#remove if the files ultimately were deleted
 	init_read_files = [fname for fname in init_read_files if os.path.isfile(fname)]
 	ever_write_files = [fname for fname in ever_write_files if os.path.isfile(fname)]
 	
