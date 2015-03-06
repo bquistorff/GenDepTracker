@@ -7,12 +7,13 @@ def error(message):
 	sys.exit(1)
 	
 def cygpath_from_winpath(winabspath):
-	return("/cygdrive/c"+winabspath[2:].replace('\\','/'))
+	return("/cygdrive/"+winabspath[0].lower()+winabspath[2:].replace('\\','/'))
 	
 def main(argv):
 	if len(argv)!=(3+1) and len(argv)!=(4+1):
 		error('usage: %s root_WPID procmon_log.csv proj_base_path [target]' % os.path.basename(argv[0]))
 	
+	remove_deleted_files=1
 	proc_set = [argv[1]]
 	log_fname = argv[2]
 	proj_base = argv[3]
@@ -45,9 +46,9 @@ def main(argv):
 				if fname not in ever_write_files:
 					ever_write_files.append(fname)
 	
-	#remove if the files ultimately were deleted
-	init_read_files = [fname for fname in init_read_files if os.path.isfile(fname)]
-	ever_write_files = [fname for fname in ever_write_files if os.path.isfile(fname)]
+	if remove_deleted_files:
+		init_read_files = [fname for fname in init_read_files if os.path.isfile(fname)]
+		ever_write_files = [fname for fname in ever_write_files if os.path.isfile(fname)]
 	
 	#Output the information
 	if len(argv)==(4+1):
