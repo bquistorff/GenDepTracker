@@ -11,7 +11,7 @@ def cygpath_from_winpath(winabspath):
 	
 def main(argv):
 	if len(argv)!=(3+1) and len(argv)!=(4+1):
-		error('usage: %s root_WPID procmon_log.csv proj_base_path [target]' % os.path.basename(argv[0]))
+		error('usage: %s root_WPID procmon_log.csv proj_base_path [dep_file]' % os.path.basename(argv[0]))
 	
 	remove_deleted_files=1
 	proc_set = [argv[1]]
@@ -52,20 +52,19 @@ def main(argv):
 	
 	#Output the information
 	if len(argv)==(4+1):
-		target = argv[4]
-		with open(target+".dep", "w") as dep_file:
-			if len(ever_write_files)>0:
-				for fname in ever_write_files:
-					fname_rel = os.path.relpath(cygpath_from_winpath(fname))
-					dep_file.write(fname_rel + ' ')
-				dep_file.write(' : '+target+'\n')
-				
-			if len(init_read_files)>0:
-				dep_file.write(target + ' :')
-				for fname in init_read_files:
-					fname_rel = os.path.relpath(cygpath_from_winpath(fname))
-					dep_file.write(' ' + fname_rel)
-				dep_file.write('\n')
+		outfile = argv[4]
+		with open(outfile, "w") as dep_file:
+			for fname in ever_write_files:
+				fname_rel = os.path.relpath(cygpath_from_winpath(fname))
+				dep_file.write(fname_rel + ' ')
+			
+			dep_file.write(' : ')
+			
+			for fname in init_read_files:
+				fname_rel = os.path.relpath(cygpath_from_winpath(fname))
+				dep_file.write(' ' + fname_rel)
+			
+			dep_file.write('\n')
 	
 	else:
 		print 'Project files initially read:'

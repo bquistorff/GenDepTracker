@@ -18,5 +18,5 @@ rc=$?
 
 if [ -n "$GENDEP_DEBUG" ]; then echo "Finished work. rc=$rc"; fi
 
-dep_tracker_post.sh $rc
+dep_tracker_post.sh $rc $DEP_FILE
 exit $?
